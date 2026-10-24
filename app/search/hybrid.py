@@ -11,7 +11,7 @@ ORDER BY c.embedding <=> %s
 LIMIT %s
 """
 
-_SPARSE_SQL = """
+_SPARSE_PG_SQL = """
 SELECT c.chunk_id, c.doc_id, d.title, c.text
 FROM chunks c JOIN documents d USING (doc_id)
 WHERE c.strategy = %s AND c.tsv @@ to_tsquery('english', %s)
@@ -24,25 +24,25 @@ class HybridSearcher:
     def __init__(self, embedder: Embedder | None = None, strategy: str = "structural") -> None:
         self.embedder = embedder or Embedder()
         self.strategy = strategy
-        self._bm25 = None
-    
+        self._bm25: BM25Index | None = None
+
     def dense(self, conn, query: str, limit: int) -> list[Hit]:
         vec = self.embedder.embed_query(query)
         rows = conn.execute(_DENSE_SQL, (self.strategy, vec, limit)).fetchall()
         return [Hit(*r) for r in rows]
 
-    def sparse(self, conn, query: str, limit: int) -> list[Hit]:
+    def sparse_pg(self, conn, query: str, limit: int) -> list[Hit]:
         terms = keyword_terms(query)
         if not terms:
             return []
         tsq = " | ".join(terms)
-        rows = conn.execute(_SPARSE_SQL, (self.strategy, tsq, tsq, limit)).fetchall()
+        rows = conn.execute(_SPARSE_PG_SQL, (self.strategy, tsq, tsq, limit)).fetchall()
         return [Hit(*r) for r in rows]
-    
-    def bm25(self, conn, query: str, limit: int):
-            if self._bm25 is None:                       # ერთხელ ვაგებთ, მერე მეხსიერებაში რჩება
-                self._bm25 = BM25Index.from_db(conn, self.strategy)
-            return self._bm25.search(query, limit)
+
+    def bm25(self, conn, query: str, limit: int) -> list[Hit]:
+        if self._bm25 is None:
+            self._bm25 = BM25Index.from_db(conn, self.strategy)
+        return self._bm25.search(query, limit)
 
     def search(self, query: str, top_k: int = 10, mode: str = "hybrid",
                candidates: int = 50, rerank: bool = True) -> list[Hit]:
