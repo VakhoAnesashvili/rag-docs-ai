@@ -50,3 +50,16 @@ def count_rows(conn) -> dict:
         "documents": conn.execute("SELECT count(*) FROM documents").fetchone()[0],
         "chunks": conn.execute("SELECT count(*) FROM chunks").fetchone()[0],
     }
+
+def get_document_text(conn, key: str, strategy: str = "structural") -> tuple[str, str, str] | None:
+    """key = doc_id ან სათაური. აბრუნებს (doc_id, title, სრული ტექსტი)."""
+    rows = conn.execute(
+        """SELECT c.doc_id, d.title, c.text
+           FROM chunks c JOIN documents d USING (doc_id)
+           WHERE c.strategy = %s AND (c.doc_id = %s OR lower(d.title) = lower(%s))
+           ORDER BY c.chunk_index""",
+        (strategy, key, key),
+    ).fetchall()
+    if not rows:
+        return None
+    return rows[0][0], rows[0][1], " ".join(r[2] for r in rows)

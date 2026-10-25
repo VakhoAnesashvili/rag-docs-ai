@@ -5,7 +5,7 @@ from app.rag import prompts
 from app.rag.llm import LLMClient, LLMError
 from app.search.fusion import Hit
 from app.search.hybrid import HybridSearcher
-
+from app.rag.prompts import _looks_like_refusal
 log = logging.getLogger(__name__)
 
 
@@ -30,6 +30,7 @@ class RagAnswer:
     sub_queries: list[str] = field(default_factory=list)
     provider: str = ""
     error: str | None = None
+    trace: list = field(default_factory=list)      # აგენტის ნაბიჯები
 
 
 class RagPipeline:
@@ -84,8 +85,8 @@ class RagPipeline:
         valid = [n for n in dict.fromkeys(cited) if n in by_number]   # VERIFY: გამოგონილი ნომრები ვარდება
 
         sufficient = bool(data.get("sufficient")) and data.get("answer")
-        if sufficient and not valid:
-            sufficient = False          # პასუხი წყაროს გარეშე არ ვიღებთ
+        if sufficient and _looks_like_refusal(data.get("answer", "")):
+            sufficient = False         # პასუხი წყაროს გარეშე არ ვიღებთ
 
         result.abstained = not sufficient
         result.answer = data.get("answer") if sufficient else None
