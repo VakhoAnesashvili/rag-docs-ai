@@ -63,3 +63,26 @@ def get_document_text(conn, key: str, strategy: str = "structural") -> tuple[str
     if not rows:
         return None
     return rows[0][0], rows[0][1], " ".join(r[2] for r in rows)
+
+def list_documents(conn, limit: int = 50, offset: int = 0, q: str = "") -> tuple[int, list[dict]]:
+    like = f"%{q}%"
+    total = conn.execute(
+        "SELECT count(*) FROM documents WHERE title ILIKE %s", (like,)).fetchone()[0]
+    rows = conn.execute(
+        """SELECT doc_id, title, source, format, created_at FROM documents
+           WHERE title ILIKE %s ORDER BY created_at DESC, doc_id LIMIT %s OFFSET %s""",
+        (like, limit, offset)).fetchall()
+    return total, [
+        {"doc_id": r[0], "title": r[1], "source": r[2], "format": r[3],
+         "created_at": r[4].isoformat()} for r in rows
+    ]
+
+
+def get_chunk(conn, chunk_id: str, strategy: str = "structural") -> dict | None:
+    r = conn.execute(
+        """SELECT c.chunk_id, c.doc_id, d.title, d.source, c.text
+           FROM chunks c JOIN documents d USING (doc_id)
+           WHERE c.chunk_id = %s AND c.strategy = %s""", (chunk_id, strategy)).fetchone()
+    if not r:
+        return None
+    return {"chunk_id": r[0], "doc_id": r[1], "title": r[2], "source": r[3], "text": r[4]}

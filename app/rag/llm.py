@@ -66,19 +66,18 @@ class GroqProvider:
 
 
 class LLMClient:
-    def __init__(self, providers: list | None = None) -> None:
-        self.providers = providers if providers is not None else self._default()
+    def __init__(self, providers: list | None = None, order: tuple[str, ...] = ("groq", "gemini")) -> None:
+        self.providers = providers if providers is not None else self._default(order)
         if not self.providers:
             raise LLMError("არცერთი LLM გასაღები არ არის მითითებული (.env)")
-
+        
     @staticmethod
-    def _default() -> list:
-        out = []
-        if settings.gemini_api_key:
-            out.append(GeminiProvider())
-        if settings.groq_api_key:
-            out.append(GroqProvider())
-        return out
+    def _default(order: tuple[str, ...] = ("groq", "gemini")) -> list:
+        makers = {
+            "gemini": (settings.gemini_api_key, GeminiProvider),
+            "groq": (settings.groq_api_key, GroqProvider),
+        }
+        return [makers[n][1]() for n in order if makers[n][0]]
 
     def generate(self, prompt: str, system: str | None = None,
                  json_mode: bool = False) -> LLMResult:
