@@ -1,0 +1,338 @@
+{
+  "agent": {
+    "overall": {
+      "n": 50,
+      "errors": 28,
+      "answer_correctness": 0.765,
+      "recall_retrieved": 0.804,
+      "both_found": 0.647,
+      "citation_precision": 0.917,
+      "citation_hit": 0.938,
+      "abstention_acc": 1.0,
+      "conflict_detection": 1.0,
+      "avg_sec": 15.972
+    },
+    "by_type": {
+      "simple": {
+        "n": 3,
+        "errors": 0,
+        "answer_correctness": 1.0,
+        "recall_retrieved": 0.667,
+        "both_found": 0.667,
+        "citation_precision": 0.667,
+        "citation_hit": 0.667,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 37.7
+      },
+      "multi_hop": {
+        "n": 3,
+        "errors": 0,
+        "answer_correctness": 0.667,
+        "recall_retrieved": 1.0,
+        "both_found": 1.0,
+        "citation_precision": 0.833,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 20.3
+      },
+      "cross_doc": {
+        "n": 2,
+        "errors": 0,
+        "answer_correctness": 0.5,
+        "recall_retrieved": 0.583,
+        "both_found": 0.0,
+        "citation_precision": 1.0,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 8.75
+      },
+      "unanswerable": {
+        "n": 9,
+        "errors": 6,
+        "answer_correctness": null,
+        "recall_retrieved": null,
+        "both_found": null,
+        "citation_precision": null,
+        "citation_hit": null,
+        "abstention_acc": 1.0,
+        "conflict_detection": null,
+        "avg_sec": 12.511
+      },
+      "conflict": {
+        "n": 2,
+        "errors": 0,
+        "answer_correctness": null,
+        "recall_retrieved": null,
+        "both_found": null,
+        "citation_precision": null,
+        "citation_hit": null,
+        "abstention_acc": null,
+        "conflict_detection": 1.0,
+        "avg_sec": 14.25
+      },
+      "injection": {
+        "n": 1,
+        "errors": 0,
+        "answer_correctness": 0.0,
+        "recall_retrieved": 0.5,
+        "both_found": 0.0,
+        "citation_precision": 1.0,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 13.3
+      },
+      "hotpot_bridge": {
+        "n": 23,
+        "errors": 17,
+        "answer_correctness": 0.833,
+        "recall_retrieved": 0.833,
+        "both_found": 0.667,
+        "citation_precision": 1.0,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 15.691
+      },
+      "hotpot_comparison": {
+        "n": 7,
+        "errors": 5,
+        "answer_correctness": 1.0,
+        "recall_retrieved": 1.0,
+        "both_found": 1.0,
+        "citation_precision": 1.0,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 13.114
+      }
+    }
+  },
+  "pipeline": {
+    "overall": {
+      "n": 50,
+      "errors": 0,
+      "answer_correctness": 0.744,
+      "recall_retrieved": 0.885,
+      "both_found": 0.769,
+      "citation_precision": 0.917,
+      "citation_hit": 0.968,
+      "abstention_acc": 1.0,
+      "conflict_detection": 0.5,
+      "avg_sec": 11.036
+    },
+    "by_type": {
+      "simple": {
+        "n": 3,
+        "errors": 0,
+        "answer_correctness": 1.0,
+        "recall_retrieved": 1.0,
+        "both_found": 1.0,
+        "citation_precision": 0.667,
+        "citation_hit": 0.667,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 19.9
+      },
+      "multi_hop": {
+        "n": 3,
+        "errors": 0,
+        "answer_correctness": 1.0,
+        "recall_retrieved": 1.0,
+        "both_found": 1.0,
+        "citation_precision": 0.889,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 7.8
+      },
+      "cross_doc": {
+        "n": 2,
+        "errors": 0,
+        "answer_correctness": 1.0,
+        "recall_retrieved": 1.0,
+        "both_found": 1.0,
+        "citation_precision": 0.875,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 7.65
+      },
+      "unanswerable": {
+        "n": 9,
+        "errors": 0,
+        "answer_correctness": null,
+        "recall_retrieved": null,
+        "both_found": null,
+        "citation_precision": null,
+        "citation_hit": null,
+        "abstention_acc": 1.0,
+        "conflict_detection": null,
+        "avg_sec": 7.989
+      },
+      "hotpot_bridge": {
+        "n": 23,
+        "errors": 0,
+        "answer_correctness": 0.652,
+        "recall_retrieved": 0.826,
+        "both_found": 0.652,
+        "citation_precision": 0.969,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 10.839
+      },
+      "hotpot_comparison": {
+        "n": 7,
+        "errors": 0,
+        "answer_correctness": 0.857,
+        "recall_retrieved": 0.929,
+        "both_found": 0.857,
+        "citation_precision": 1.0,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 11.157
+      },
+      "conflict": {
+        "n": 2,
+        "errors": 0,
+        "answer_correctness": null,
+        "recall_retrieved": null,
+        "both_found": null,
+        "citation_precision": null,
+        "citation_hit": null,
+        "abstention_acc": null,
+        "conflict_detection": 0.5,
+        "avg_sec": 21.0
+      },
+      "injection": {
+        "n": 1,
+        "errors": 0,
+        "answer_correctness": 0.0,
+        "recall_retrieved": 1.0,
+        "both_found": 1.0,
+        "citation_precision": 0.5,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 12.1
+      }
+    }
+  },
+  "pipeline_nodecomp": {
+    "overall": {
+      "n": 50,
+      "errors": 0,
+      "answer_correctness": 0.692,
+      "recall_retrieved": 0.872,
+      "both_found": 0.744,
+      "citation_precision": 0.922,
+      "citation_hit": 0.966,
+      "abstention_acc": 1.0,
+      "conflict_detection": 0.0,
+      "avg_sec": 5.166
+    },
+    "by_type": {
+      "simple": {
+        "n": 3,
+        "errors": 0,
+        "answer_correctness": 1.0,
+        "recall_retrieved": 1.0,
+        "both_found": 1.0,
+        "citation_precision": 0.667,
+        "citation_hit": 0.667,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 18.1
+      },
+      "multi_hop": {
+        "n": 3,
+        "errors": 0,
+        "answer_correctness": 0.667,
+        "recall_retrieved": 1.0,
+        "both_found": 1.0,
+        "citation_precision": 1.0,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 3.233
+      },
+      "cross_doc": {
+        "n": 2,
+        "errors": 0,
+        "answer_correctness": 1.0,
+        "recall_retrieved": 1.0,
+        "both_found": 1.0,
+        "citation_precision": 0.875,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 3.05
+      },
+      "unanswerable": {
+        "n": 9,
+        "errors": 0,
+        "answer_correctness": null,
+        "recall_retrieved": null,
+        "both_found": null,
+        "citation_precision": null,
+        "citation_hit": null,
+        "abstention_acc": 1.0,
+        "conflict_detection": null,
+        "avg_sec": 4.744
+      },
+      "conflict": {
+        "n": 2,
+        "errors": 0,
+        "answer_correctness": null,
+        "recall_retrieved": null,
+        "both_found": null,
+        "citation_precision": null,
+        "citation_hit": null,
+        "abstention_acc": null,
+        "conflict_detection": 0.0,
+        "avg_sec": 2.35
+      },
+      "injection": {
+        "n": 1,
+        "errors": 0,
+        "answer_correctness": 0.0,
+        "recall_retrieved": 1.0,
+        "both_found": 1.0,
+        "citation_precision": 0.5,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 4.2
+      },
+      "hotpot_bridge": {
+        "n": 23,
+        "errors": 0,
+        "answer_correctness": 0.609,
+        "recall_retrieved": 0.804,
+        "both_found": 0.609,
+        "citation_precision": 0.967,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 4.4
+      },
+      "hotpot_comparison": {
+        "n": 7,
+        "errors": 0,
+        "answer_correctness": 0.857,
+        "recall_retrieved": 0.929,
+        "both_found": 0.857,
+        "citation_precision": 1.0,
+        "citation_hit": 1.0,
+        "abstention_acc": null,
+        "conflict_detection": null,
+        "avg_sec": 5.057
+      }
+    }
+  }
+}

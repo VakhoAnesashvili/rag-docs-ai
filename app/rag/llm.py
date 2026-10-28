@@ -32,6 +32,7 @@ class GeminiProvider:
                 retry_options=types.HttpRetryOptions(attempts=1),
             ),
         )
+
     def generate(self, prompt: str, system: str | None, json_mode: bool) -> str:
         from google.genai import types
         cfg = types.GenerateContentConfig(
@@ -60,19 +61,21 @@ class GroqProvider:
         messages.append({"role": "user", "content": prompt})
         kwargs = {"response_format": {"type": "json_object"}} if json_mode else {}
         r = self.client.chat.completions.create(
-            model=settings.groq_model, messages=messages, temperature=0.0, **kwargs
+            model=settings.groq_model, messages=messages, temperature=0.0,
+            reasoning_effort="low", max_completion_tokens=4096, **kwargs,
         )
         return r.choices[0].message.content or ""
 
 
 class LLMClient:
-    def __init__(self, providers: list | None = None, order: tuple[str, ...] = ("groq", "gemini")) -> None:
+    def __init__(self, providers: list | None = None,
+                 order: tuple[str, ...] = ("groq", "gemini")) -> None:
         self.providers = providers if providers is not None else self._default(order)
         if not self.providers:
             raise LLMError("არცერთი LLM გასაღები არ არის მითითებული (.env)")
-        
+
     @staticmethod
-    def _default(order: tuple[str, ...] = ("groq", "gemini")) -> list:
+    def _default(order: tuple[str, ...]) -> list:
         makers = {
             "gemini": (settings.gemini_api_key, GeminiProvider),
             "groq": (settings.groq_api_key, GroqProvider),
@@ -92,8 +95,8 @@ class LLMClient:
                     errors.append(f"{provider.name}#{attempt + 1}: {e}")
                     log.warning("LLM შეცდომა %s: %s", provider.name, e)
                     if not self._retryable(e):
-                        break                               # არასწორი მოთხოვნა, ხელახლა არ ვცდით
-                    time.sleep(2 ** attempt)                # 1, 2, 4 წმ
+                        break
+                    time.sleep(2 ** attempt)
         raise LLMError("ყველა პროვაიდერი ჩავარდა: " + " | ".join(errors[-4:]))
 
     def generate_json(self, prompt: str, system: str | None = None) -> dict:
@@ -108,4 +111,4 @@ class LLMClient:
     def _retryable(e: Exception) -> bool:
         msg = str(e).lower()
         return any(s in msg for s in ("429", "503", "500", "timeout", "unavailable",
-                                      "rate", "overloaded", "deadline"))
+                                      "rate", "overloaded", "deadline", "json_validate_failed"))
